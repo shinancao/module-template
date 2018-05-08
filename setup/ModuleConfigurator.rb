@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'find'
+require 'colored2'
 
 module Project
 
@@ -20,14 +21,18 @@ module Project
 			createModuleDir
 			rename_template_files
 			replace_variables_in_files
+			prompt
 
 		end
 
 		def createModuleDir
-
-			Dir.mkdir(@module_name)
-			FileUtils.cp_r(Dir['templates/'+@module_template_dir+'/*'], @module_name)
-
+			if File.directory?(@module_template_dir)
+				Dir.mkdir(@module_name)
+				FileUtils.cp_r(Dir['templates/'+@module_template_dir+'/*'], @module_name)
+			else
+				puts "Oops! I can't find the \"#{@module_template_dir}\" directory.".red
+				exit(false)
+			end
 		end
 
 		def rename_template_files
@@ -60,6 +65,12 @@ module Project
 		def date
 			Time.now.strftime "%m/%d/%Y"
 		end
+
+		def prompt
+			puts "Done!".green
+			system "open ."
+		end
+
 	end
 
 end
