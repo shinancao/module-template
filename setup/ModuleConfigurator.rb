@@ -26,7 +26,7 @@ module Project
 		end
 
 		def createModuleDir
-			if File.directory?(@module_template_dir)
+			if File.directory?('templates/'+@module_template_dir)
 				Dir.mkdir(@module_name)
 				FileUtils.cp_r(Dir['templates/'+@module_template_dir+'/*'], @module_name)
 			else
